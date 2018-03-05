@@ -1,36 +1,6 @@
 module.exports = function getZerosCount(number, base) {
   var zeroes = 0;  
-  /*if((base%2) != 0) {
-    poweredFive = 10;
-    while(number/poweredFive > 1) {
-      zeroes += (number - number % poweredFive) / poweredFive;
-      poweredFive = Math.pow(10, ++i);
-    }
-    return zeroes;
-  } else {*/
-
-  /*var primerArray = [];
-  var primer = 2;
-  var power = 0;
-  var restBase = base;
-  var notAPrimer;
-  while(primer < base) {
-    if(restBase%primer == 0) {
-      while(restBase%primer == 0) {
-        power++;
-        restBase /= primer;
-      }
-      primerArray.push({pr : primer, pw : power});
-      power = 0;
-      primer++;
-      primerArray.forEach(element => {
-        
-      });
-    }
-    
-  }*/
-
-
+  
   var primerArray = [];
   var primer = 2;
   var restBase;
@@ -54,23 +24,21 @@ module.exports = function getZerosCount(number, base) {
     isPrimer = true;
     primer++;    
   }
-  primer = primerArray[primerArray.length - 1].pr;
-
   
-  while(number/primer > 1) {
-    zeroes += (number - number % primer) / primer;
-    number /= primer;
+  zeroes = 99999999999999;
+  for(var i = 0; i < primerArray.length; i++) {
+    primer = primerArray[i].pr;
+    var tempZeroes = 0;
+    var tempNumber = number;
+    while(tempNumber/primer > 1) {
+      tempZeroes += (tempNumber - tempNumber % primer) / primer;
+      tempNumber /= primer;
+    }
+    tempZeroes = (tempZeroes - tempZeroes % primerArray[i].pw) / primerArray[i].pw;
+    if(tempZeroes < zeroes) {
+      zeroes = tempZeroes;
+    }
   }
-
-  var biggestPrimerPower = primerArray.pop().pw;
-  if(biggestPrimerPower > 1) {
-    zeroes = (zeroes - zeroes % biggestPrimerPower) / biggestPrimerPower;
-    //zeroes = Math.round(zeroes);
-  } else if (primerArray.length != 0) {
-    //smallestPrimerPower = primerArray.shift().pw;
-    //zeroes = zeroes - ((zeroes - (zeroes % smallestPrimerPower)) / smallestPrimerPower);
-  }
-
-
+  
   return zeroes;
 }
